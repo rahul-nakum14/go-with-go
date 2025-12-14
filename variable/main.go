@@ -3,12 +3,12 @@ package main
 import "fmt"
 
 func variableInitialization()  {
-	var username string
-	var hasPermission bool
-	var constData float64
-	var age int
+	// var username string
+	// var hasPermission bool
+	// var constData float64
+	// var age int
 	
-	fmt.Printf("%q %v %f %v\n", username, hasPermission, constData, age)
+	// fmt.Printf("%q %v %f %v\n", username, hasPermission, constData, age)
 
 
 	/* 
@@ -76,8 +76,26 @@ func variableInitialization()  {
 	if c:=999; c<data1 {
 		fmt.Println("Hey How are you")
 	}
+
+
+	var a int;
+	a=12;
+	fmt.Println(a)
+
+	b:=123
+	fmt.Println(b)
+
+	var c int =2342;
+	fmt.Println(c)
+
+
+	const (
+		port = 5000
+		host = "localhost"
+	)
+
+	fmt.Println(port)
 }
 func main() {
 	variableInitialization()
-	
 }
