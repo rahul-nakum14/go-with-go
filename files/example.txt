@@ -1,0 +1,18 @@
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	f, err := os.Open("example.txt")
+
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+
+	defer f.Close()
+	fmt.Println("File opened successfully:", f.Name())
+}
