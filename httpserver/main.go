@@ -1,93 +1,44 @@
-// package main
-
-// import (
-// 	"log"
-// 	"net/http"
-// )
-
-// type Server struct {
-// 	logger *log.Logger
-// }
-
-
-// func homeHandler(w http.ResponseWriter, r *http.Request){
-// 		w.WriteHeader(http.StatusOK)
-// 		w.Write([]byte("Hello, Go HTTP Server"))
-// 	}
-
-// func healthHandler(w http.ResponseWriter, r *http.Request) {
-// 	w.WriteHeader(http.StatusOK)
-// 	w.Write([]byte("OK"))
-// }
-
-// func main(){
-// 	logger := log.New(os.Stdout, "HTTP: ", log.LstdFlags)
-// 	server := &Server{
-// 		logger: logger,
-// 	}
-
-// 	mux := http.NewServeMux()
-// 	mux.HandleFunc("/health", server.healthHandler)
-// 	mux.HandleFunc("/users", server.usersHandler)
-
-// 	logger.Println("Server started on :8080")
-
-// 	err := http.ListenAndServe(":8080", mux)
-// 	if err != nil {
-// 		logger.Fatal(err)
-// 	}
-
-// 	http.HandleFunc("/",homeHandler)
-// 	http.HandleFunc("/health", healthHandler)
-
-// 	log.Println("Server started on :8080")
-
-// 	err := http.ListenAndServe(":8080", nil)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// }
 package main
 
 import (
 	"log"
 	"net/http"
-	"os"
 )
 
-type Server struct {
-	logger *log.Logger
-}
-
 func main() {
-	logger := log.New(os.Stdout, "HTTP: ", log.LstdFlags)
 
-	server := &Server{
-		logger: logger,
-	}
+	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+					w.Header().Set("Content-Type", "application/json")
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/health", server.healthHandler)
-	mux.HandleFunc("/users", server.usersHandler)
+		w.WriteHeader(http.StatusOK)
+			w.Write([]byte(`{"message":"Hello World"}`))
+	})
 
-	logger.Println("Server started on :8080")
+		http.HandleFunc("/demo", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+			w.Header().Set("Content-Type", "application/json")
 
-	err := http.ListenAndServe(":8080", mux)
+		name:= r.URL.Query().Get("name");
+
+		if r.Method != http.MethodGet {
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			w.Write([]byte("Method not allowed"))
+			return
+		}
+		if name == "" {
+			name = "World"
+		}
+			w.Write([]byte(`{"message":"Hello World"}`))
+
+		// w.Write([]byte(`{"name:helo world"}`))
+		// w.Write([]byte("Hello " + name))
+	})
+
+	log.Println("Server started on :8080")
+
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
-		logger.Fatal(err)
+
+		log.Fatal(err)
 	}
-}
-
-func (s *Server) healthHandler(w http.ResponseWriter, r *http.Request) {
-	s.logger.Println("Health check called")
-
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("OK"))
-}
-
-func (s *Server) usersHandler(w http.ResponseWriter, r *http.Request) {
-	s.logger.Println("Users endpoint called")
-
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Users list"))
 }
