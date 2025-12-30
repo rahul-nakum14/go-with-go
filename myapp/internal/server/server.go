@@ -12,7 +12,13 @@ func NewServer(addr string) *http.Server {
 
 	routes.RegisterRoutes(mux)
 
-	handler := middleware.Logger(mux)
+	handler := WithNotFound(mux)
+	handler = middleware.Logger(handler)
+	handler = middleware.Recovery(handler) 
+	
+	mux.HandleFunc("/panic", func(w http.ResponseWriter, r *http.Request) {
+		panic("something went terribly wrong")
+	})
 
 	return &http.Server{
 		Addr:    addr,
