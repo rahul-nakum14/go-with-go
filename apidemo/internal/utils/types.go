@@ -5,7 +5,7 @@ import (
 )
 
 type Student struct {
-	ID    int64 `json:"id" validate:"required"`
+	ID    int64 `json:"id"`
 	Name  string `json:"name" validate:"required"`
 	Age   int    `json:"age" validate:"gte=18,lte=120"`
 	Email string `json:"email" validate:"email,required"`
@@ -27,3 +27,15 @@ type APIResponse struct {
 	Error   string      `json:"error,omitempty"`
 }
 
+
+
+
+// func Ping(w http.ResponseWriter, r *http.Request) {
+// 	utils.SendResponse(
+// 		w,
+// 		http.StatusOK,
+// 		"Pong",
+// 		nil,
+// 		"",
+// 	)
+// }

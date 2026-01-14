@@ -10,17 +10,26 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	"learn-go/apidemo/internal/storage/sqlilite"
 )
 
 func main() {
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	cfg, _ := config.LoadConfig()
+
+	storage, err := sqlilite.New(cfg)
+
+
+	if err != nil {
+		logger.Fatalf("Failed to connect to database: %v", err)
+	}
 	if cfg != nil {
 
 		mux := http.NewServeMux()
 
-		mux.HandleFunc("POST /api/new/student", student.Create)
-		mux.HandleFunc("GET /ping", student.Ping)
+		mux.HandleFunc("POST /api/new/student", student.Create(storage))
+		mux.HandleFunc("GET /api/student/{id}", student.GetByID(storage))
+		// mux.HandleFunc("GET /ping", student.Ping)
 		logger.Println("Server started on: ", cfg.HTTPServer.Address)
 		server := &http.Server{
 			Addr:    cfg.HTTPServer.Address,
