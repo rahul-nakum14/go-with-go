@@ -20,7 +20,7 @@ func main() {
 		mux := http.NewServeMux()
 
 		mux.HandleFunc("POST /api/new/student", student.Create)
-
+		mux.HandleFunc("GET /ping", student.Ping)
 		logger.Println("Server started on: ", cfg.HTTPServer.Address)
 		server := &http.Server{
 			Addr:    cfg.HTTPServer.Address,

@@ -5,7 +5,7 @@ import (
 )
 
 type Student struct {
-	ID    string `json:"id" validate:"required"`
+	ID    int64 `json:"id" validate:"required"`
 	Name  string `json:"name" validate:"required"`
 	Age   int    `json:"age" validate:"gte=18,lte=120"`
 	Email string `json:"email" validate:"email,required"`
@@ -26,3 +26,4 @@ type APIResponse struct {
 	Data    interface{} `json:"data,omitempty"`
 	Error   string      `json:"error,omitempty"`
 }
+
