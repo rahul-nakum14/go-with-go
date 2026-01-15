@@ -15,7 +15,7 @@ type UserHandler struct {
 func NewUserHandler(s *service.UserService) *UserHandler {
 	return &UserHandler{service: s}
 }
-
+	
 func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var u model.User
 	json.NewDecoder(r.Body).Decode(&u)
