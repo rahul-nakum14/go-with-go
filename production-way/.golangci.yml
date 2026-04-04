@@ -1,0 +1,43 @@
+# .golangci.yml — golangci-lint configuration
+run:
+  timeout: 5m
+  go: "1.22"
+
+linters:
+  enable:
+    - errcheck        # unchecked errors
+    - gosimple        # simplification suggestions
+    - govet           # go vet checks
+    - ineffassign     # unused assignments
+    - staticcheck     # advanced static analysis
+    - unused          # unused code
+    - gofmt           # formatting
+    - goimports       # import ordering
+    - misspell        # common spelling mistakes
+    - revive          # golint successor
+    - bodyclose       # http response body not closed
+    - contextcheck    # context propagation
+    - noctx           # http requests without context
+    - exhaustive      # exhaustive switch checks
+    - godot           # comment punctuation
+    - gocritic        # various checks
+    - prealloc        # slice preallocation
+
+linters-settings:
+  revive:
+    rules:
+      - name: exported
+        severity: warning
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+
+issues:
+  exclude-rules:
+    # Test files are allowed more freedom
+    - path: _test\.go
+      linters:
+        - errcheck
+        - gocritic
